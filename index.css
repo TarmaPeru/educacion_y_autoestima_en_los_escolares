@@ -253,6 +253,68 @@ h2::after{
   line-height:1.8;
 }
 
+/* VÍDEO */
+
+.video-section{
+
+    display:flex;
+    align-items:center;
+    gap:50px;
+
+    background:white;
+
+    padding:50px;
+
+    border-radius:25px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+
+}
+
+.video-box{
+
+    flex:1;
+
+}
+
+.video-box video{
+
+    width:100%;
+
+    border-radius:20px;
+
+}
+
+.video-texto{
+
+    flex:1;
+
+}
+
+.video-texto h2{
+
+    text-align:left;
+
+    margin-bottom:20px;
+
+}
+
+.video-texto h2::after{
+
+    margin:15px 0 0 0;
+
+}
+
+.video-texto p{
+
+    font-size:12px;
+
+    line-height:1.8;
+
+    text-align:justify;
+
+}
+
 /* SLIDER */
 
 .slider{
