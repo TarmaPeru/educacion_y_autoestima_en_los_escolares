@@ -57,20 +57,28 @@
 
     </nav>
   </header>
-<!-- BARRA DE BÚSQUEDA -->
+  
+<section class="barra-buscador">
 
-<div class="search-container">
+    <div class="contenedor-buscador">
 
-  <input
-  type="text"
-  id="searchInput"
-  placeholder="Buscar temas sobre autoestima...">
+        <input
+            type="text"
+            id="busqueda"
+            placeholder="Buscar en la web o en esta página..."
+        >
 
-  <button onclick="buscarContenido()">
+        <button onclick="buscarPagina()">
+            Buscar aquí
+        </button>
 
-    🔍
+        <button onclick="buscarGoogle()">
+            Google
+        </button>
 
-  </button>
+    </div>
+
+</section>
 
 </div>
   <!-- PORTADA -->
@@ -100,6 +108,38 @@
         <video controls>
             <source src="img/La Baja Autoestima en la Educación.mp4" type="video/mp4">
         </video>
+
+        <div class="video-actions">
+
+            <button id="likeBtn" class="action-btn">
+                👍 Me gusta <span id="likeCount">0</span>
+            </button>
+
+            <button id="dislikeBtn" class="action-btn">
+                👎 No me gusta <span id="dislikeCount">0</span>
+            </button>
+
+            <button id="shareBtn" class="action-btn">
+                🔗 Compartir
+            </button>
+
+        </div>
+
+        <div class="comentarios-section">
+
+            <h3>Comentarios</h3>
+
+            <textarea
+            id="comentario"
+            placeholder="Escribe un comentario..."></textarea>
+
+            <button id="btnComentar" class="btn-comentar">
+                Comentar
+            </button>
+
+            <div id="listaComentarios"></div>
+
+        </div>
 
     </div>
 
@@ -154,7 +194,7 @@
 
         <p>
 
-          Somos un equipo de investigadores y estudiantes de educación primaria de la Universidad César Vallejo: Pedro Anglas, Bianca Barja, Jhanira Pomacaja, Sofía Esteban, Gisely Reyna y María Mendoza, dedicados al análisis y la mejora de los procesos formativos. En esta oportunidad, nuestro trabajo se enfoca en abordar la falta de autoestima en la educación, un factor crítico que impacta directamente en el desarrollo integral, el bienestar socioemocional y el rendimiento académico de los estudiantes.
+          Somos un equipo de investigadores y estudiantes de educación primaria de la Universidad César Vallejo: Pedro Anglas, Bianca Barja, Jhanira Pomacaja, Sofía Esteban y Gisely Reyna, dedicados al análisis y la mejora de los procesos formativos. En esta oportunidad, nuestro trabajo se enfoca en abordar la falta de autoestima en la educación, un factor crítico que impacta directamente en el desarrollo integral, el bienestar socioemocional y el rendimiento académico de los estudiantes.
 
         </p>
 
@@ -615,12 +655,46 @@ Ecology Research
 </section>
 
   <!-- FOOTER -->
-<footer>
-  <p>&copy; 2026 - Proyecto Educativo</p>
-  <div class="footer-links">
-    <a href="terminos.html">Términos y Condiciones</a>
-    <a href="privacidad.html">Política de Privacidad</a>
-  </div>
+<footer class="footer">
+
+    <div class="footer-contenedor">
+
+        <div class="footer-col">
+            <h3>La Baja Autoestima en la Educación</h3>
+            <p>
+                Investigación académica enfocada en analizar las causas, consecuencias y posibles soluciones frente a la baja autoestima en el ámbito educativo.
+            </p>
+        </div>
+
+        <div class="footer-col">
+            <h3>Navegación</h3>
+
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#nosotros">Sobre Nosotros</a></li>
+                <li><a href="#problematica">Problemática</a></li>
+                <li><a href="#marco">Marco Teórico</a></li>
+                <li><a href="#autores">Autores</a></li>
+                <li><a href="#bibliografia">Bibliografía</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h3>Equipo Investigador</h3>
+
+            <p>Gisely Reyna </p>
+            <p>Jhanira Pomacaja</p>
+            <p>Pedro Anglas</p>
+            <p>Bianca Barja</p>
+            <p>Sofia Esteban</p>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 | Proyecto de Investigación - La Baja Autoestima en la Educación
+    </div>
+
 </footer>
 
 <!-- BOTÓN WHATSAPP -->
@@ -709,6 +783,92 @@ window.addEventListener('resize', updateSlider);
 </script>
 <script>
 
+let likes = 0;
+let dislikes = 0;
+
+const likeBtn = document.getElementById("likeBtn");
+const dislikeBtn = document.getElementById("dislikeBtn");
+const shareBtn = document.getElementById("shareBtn");
+const btnComentar = document.getElementById("btnComentar");
+
+likeBtn.addEventListener("click", () => {
+
+    likes++;
+
+    document.getElementById("likeCount").textContent = likes;
+
+});
+
+dislikeBtn.addEventListener("click", () => {
+
+    dislikes++;
+
+    document.getElementById("dislikeCount").textContent = dislikes;
+
+});
+
+shareBtn.addEventListener("click", async () => {
+
+    if(navigator.share){
+
+        try{
+
+            await navigator.share({
+
+                title:"La Baja Autoestima en la Educación",
+
+                text:"Mira este contenido educativo",
+
+                url:window.location.href
+
+            });
+
+        }catch(err){
+
+            console.log(err);
+
+        }
+
+    }else{
+
+        navigator.clipboard.writeText(window.location.href);
+
+        alert("Enlace copiado");
+
+    }
+
+});
+
+btnComentar.addEventListener("click", () => {
+
+    let texto =
+    document.getElementById("comentario").value;
+
+    if(texto.trim() === "") return;
+
+    let comentario =
+    document.createElement("div");
+
+    comentario.classList.add("comentario-item");
+
+    comentario.innerHTML = `
+        <strong>Usuario</strong><br>
+        ${texto}
+    `;
+
+    document
+    .getElementById("listaComentarios")
+    .prepend(comentario);
+
+    document
+    .getElementById("comentario")
+    .value = "";
+
+});
+
+</script>
+<script>
+
 const faqItems = document.querySelectorAll('.faq-item');
 
 faqItems.forEach(item => {
@@ -735,102 +895,38 @@ faqItems.forEach(item => {
 </script>
 <script>
 
-function buscarContenido(){
+function buscarGoogle(){
 
-  let input = document
-  .getElementById("searchInput")
-  .value
-  .toLowerCase()
-  .trim();
+    let texto = document.getElementById("busqueda").value;
 
-  if(input === ""){
-
-    alert("Escribe algo para buscar");
-    return;
-
-  }
-
-  /* SECCIONES DE LA WEB */
-
-  const secciones = [
-
-    document.getElementById("nosotros"),
-
-    document.getElementById("problematica"),
-
-    document.getElementById("internacional"),
-
-    document.getElementById("nacional"),
-
-    document.getElementById("local"),
-
-    document.getElementById("preguntas"),
-
-    document.getElementById("autores"),
-
-    document.getElementById("bibliografia")
-
-  ];
-
-  let encontrado = false;
-
-  secciones.forEach(seccion => {
-
-    /* QUITAR RESALTADO */
-
-    seccion.style.boxShadow = "none";
-
-    let texto =
-    seccion.innerText.toLowerCase();
-
-    if(texto.includes(input) && !encontrado){
-
-      encontrado = true;
-
-      /* IR A LA SECCIÓN */
-
-      seccion.scrollIntoView({
-
-        behavior:"smooth"
-
-      });
-
-      /* RESALTAR */
-
-      seccion.style.boxShadow =
-      "0 0 25px #00b4ff";
-
+    if(texto.trim() !== ""){
+        window.open(
+            "https://www.google.com/search?q=" +
+            encodeURIComponent(texto),
+            "_blank"
+        );
     }
 
-  });
+}
 
-  /* SI NO ENCUENTRA */
+function buscarPagina(){
 
-  if(!encontrado){
+    let texto = document
+    .getElementById("busqueda")
+    .value
+    .toLowerCase();
 
-    let buscarGoogle = confirm(
+    let contenido = document.body.innerText.toLowerCase();
 
-      "No se encontró en la página.\n\n¿Deseas buscar en Google?"
+    if(contenido.includes(texto)){
 
-    );
+        window.find(texto);
 
-    if(buscarGoogle){
+    }else{
 
-      let busqueda =
-
-      "https://www.google.com/search?q=" +
-
-      encodeURIComponent(
-
-      input + " baja autoestima en la educación"
-
-      );
-
-      window.open(busqueda, "_blank");
+        alert("No se encontró información en esta página.");
 
     }
-
-  }
 
 }
 
